@@ -1,14 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
-
-module.exports = {
-  eslint: {
-    ignoreDuringBuilds: true,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['avatars.githubusercontent.com'],
   },
 }
 
+module.exports = nextConfig
