@@ -1,40 +1,54 @@
+import { Product } from '@/types/product'
 import { ProductCard } from './(components)/product-card'
+import { api } from '@/api'
 
-export default function HomePage() {
+async function getFeaturedProducts(): Promise<Product[]> {
+  const response = await api('/products/featured')
+
+  const products = await response.json()
+
+  return products
+}
+
+export default async function HomePage() {
+
+  const [highlightedProduct, ...otherProducts] = await getFeaturedProducts()
+
   return (
-    <div className="grid max-h-[860px] grid-cols-9 grid-rows-6 gap-6">
-      <ProductCard
-        src="/moletom-never-stop-learning.png"
-        name="Moletom Never Stop Learning"
-        price="R$129"
-        href="/"
-        colSpan={6}
-        rowSpan={6}
-        bottom={28}
-        right={28}
-      />
-      
-      <ProductCard
-        src="/moletom-java.png"
-        name="Moletom AI Side"
-        price="R$129"
-        href="/"
-        colSpan={3}
-        rowSpan={3}
-        bottom={10}
-        right={10}
-      />
-      
-      <ProductCard
-        src="/camiseta-dowhile-2022.png"
-        name="Camiseta DoWhile 2022"
-        price="R$129"
-        href="/"
-        colSpan={3}
-        rowSpan={3}
-        bottom={10}
-        right={10}
-      />
+    <div className="grid gap-4">
+      <div className="grid max-h-[1280px] col-span-4 row-span-5 gap-6">
+        <ProductCard
+            image={highlightedProduct.image}
+            name={highlightedProduct.title}
+            price={highlightedProduct.price.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+            href={`/product/${highlightedProduct.slug}`}
+            />
+
+      </div>
+
+      <div className="grid max-h-[1280px] row-span-2 col-start-5 gap-6">
+        
+        {otherProducts.slice(0, 3).map((product, index) => (
+          <ProductCard
+            key={index}
+            image={product.image}
+            name={product.title}
+            price={product.price.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+            href={`/product/${product.slug}`}     
+            />
+        ))}
+
+      </div>
     </div>
   )
 }
