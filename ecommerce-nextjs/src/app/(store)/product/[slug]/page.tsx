@@ -4,6 +4,7 @@ import { api } from '@/api';
 import { formatPrice } from '@/utils/function';
 import { Product } from '@/types/product';
 import { Metadata } from 'next';
+import { AddToCartButton } from '@/app/components/(cart)/add-cart';
 
 interface ProductProps {
   params: Promise<{ slug: string }>
@@ -91,9 +92,8 @@ export default async function ProductPage({ params }: ProductProps) {
             </div>
           </div>
 
-          <button className="bg-blue-500 text-white font-bold py-4 rounded-lg hover:bg-blue-600 transition-colors">
-            Adicionar ao carrinho
-          </button>
+          <AddToCartButton productId={product.id} />
+
         </div>
       </div>
     );
