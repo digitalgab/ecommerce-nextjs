@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecommerce Next JS",
-};
+    title: {
+      template: '%s | Ecommerce NextJS',
+      default: 'Ecommerce NextJS',
+    },
+  }
 
 export default function RootLayout({
   children,

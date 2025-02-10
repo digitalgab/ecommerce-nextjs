@@ -4,6 +4,7 @@ import { api } from '@/api';
 import { formatPrice } from '@/utils/function';
 import { Product } from '@/types/product';
 import { ProductDetails } from '@/types/product-details';
+import { Metadata } from 'next';
 
 
 async function getProductDetails(slug: string):Promise<Product> {
@@ -17,16 +18,21 @@ async function getProductDetails(slug: string):Promise<Product> {
 
   return product
 }
+
+// create a assyn function to get metadata from next with title product title from api
+
+export async function generateMetadata({ params }: ProductDetails) : Promise<Metadata> {
+  const product = await getProductDetails(params.slug)
+
+  return {
+    title: product.title,
+  }
+}
+
 export default async function ProductPage({ params }: ProductDetails) {
 
     const product = await getProductDetails(params.slug)
-
-    console.log("product", product)
-
-    if (!product) {
-      return <div>Product not found</div>;
-    }
-
+    
     return (
       <div className="flex items-center ml-10">
         {product.image && (
