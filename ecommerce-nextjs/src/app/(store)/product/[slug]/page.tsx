@@ -3,8 +3,26 @@ import Image from 'next/image'
 import { api } from '@/api';
 import { formatPrice } from '@/utils/function';
 import { Product } from '@/types/product';
-import { ProductDetails } from '@/types/product-details';
 import { Metadata } from 'next';
+
+interface ProductProps {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+
+  // Em projetos reais é recomendável utilizar api externas fora do Next JS
+  // const response = await api('/products/featured')
+  // const products = (await response.json()) as Product[]
+
+  const products = [
+    { slug: 'moletom-never-stop-learning' },
+    { slug: 'moletom-ai-side'},
+    { slug: 'camiseta-dowhile-2022' }
+  ]
+
+  return products.map((product) => ({ slug: product.slug }))
+}
 
 
 async function getProductDetails(slug: string):Promise<Product> {
@@ -19,19 +37,19 @@ async function getProductDetails(slug: string):Promise<Product> {
   return product
 }
 
-// create a assyn function to get metadata from next with title product title from api
-
-export async function generateMetadata({ params }: ProductDetails) : Promise<Metadata> {
-  const product = await getProductDetails(params.slug)
-
+export async function generateMetadata({
+  params,
+}: ProductProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductDetails(slug)
   return {
     title: product.title,
   }
 }
 
-export default async function ProductPage({ params }: ProductDetails) {
-
-    const product = await getProductDetails(params.slug)
+export default async function ProductPage({ params }: ProductProps) {
+  const { slug } = await params;
+  const product = await getProductDetails(slug)
     
     return (
       <div className="flex items-center ml-10">

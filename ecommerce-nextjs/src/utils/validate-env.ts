@@ -1,7 +1,5 @@
 import {z} from 'zod'
 
-console.log(process.env)
-
 const envVariablesSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
 })

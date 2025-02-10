@@ -1,16 +1,16 @@
 import { z } from 'zod'
 
 import data from '../data.json'
-import { ProductDetails } from '@/types/product-details'
 
 export async function GET(
   _: Request,
-  { params }: ProductDetails 
+  { params }: { params: Promise<{ slug: string }> },
 ) {
 
-  const slug = z.string().parse(params.slug)
+  const { slug } = await params;
+  const slugProduct = z.string().parse(slug)
 
-  const product = data.products.find((product) => product.slug === slug)
+  const product = data.products.find((product) => product.slug === slugProduct)
 
   if (!product) {
     return Response.json({ message: 'Product not found.' }, { status: 400 })
