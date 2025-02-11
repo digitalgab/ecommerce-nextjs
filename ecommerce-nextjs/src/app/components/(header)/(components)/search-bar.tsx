@@ -16,7 +16,7 @@ export function SearchBar() {
     const formData = new FormData(form);
     const query = formData.get("q");
   
-    router.push(`/products/search?q=${query}`);
+    router.push(`/product/search?q=${query}`);
   }
 
   return (

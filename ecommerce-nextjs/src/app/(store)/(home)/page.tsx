@@ -1,5 +1,5 @@
 import { Product } from '@/types/product'
-import { ProductCard } from './(components)/product-card'
+import { ProductCard } from '../(components)/product-card'
 import { api } from '@/api'
 import { Metadata } from 'next'
 
